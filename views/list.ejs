@@ -10,6 +10,12 @@
         <input type="submit" />
     </form>
 
+    <ul>
+        <% for (let i = 0; i < polozky.length; i++) { %>
+                <li><%= polozky[i].id%> - <%= polozky[i].name%></li>
+        <% } %>
+    </ul>
+
 </div>
 
 <% include ../templates/footer %>
