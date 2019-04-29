@@ -1,0 +1,301 @@
+/* Importované Google Fonty s fallback fonty
+	font-family: 'Nunito', Calibri, sans-serif;
+	font-family: 'Nunito Sans', Verdana, sans-serif;
+*/
+
+/* Tělo */
+
+body {
+	background-color: #1B1C1E;
+	color: #fff;
+	font-family: 'Nunito Sans', Verdana, sans-serif;
+	font-weight: 400;
+}
+
+#wrap {
+	margin: 0 auto; 
+	border: 1px solid transparent;
+	min-width: 1000px;
+    max-width: 700px;
+	background-color: #585B5F;
+}
+
+/* Hlavička */
+
+header {
+	height: 100px;
+	background-color: #18283D;
+}
+
+.logoname {
+	padding: 10px 10px 10px 15px;
+}
+
+img.logo {
+	max-height: 80px;
+}
+
+/* Menu */
+
+nav {
+    display: flex;
+	background-color: #2A2A2B;
+	padding: 0 10px;
+}
+
+nav ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+nav li {
+    float: left;
+}
+
+nav a {
+    display: block;
+    padding: 10px;
+    background-color: #232323;
+    color: #fff;
+    font-family: 'Nunito', Calibri, sans-serif;
+	transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+	background-color: #5B5B5B;
+	color: #fff;
+}
+
+nav a:active {
+	background-color: #888888;
+	color: #fff;
+}
+
+/* Tělo stránky */
+
+#body {
+	padding: 0 20px 20px;
+}
+
+#header {
+	border-bottom: 1px solid #757575;
+	padding: 0 20px 5px;
+}
+
+/* Odkazy */
+
+a {
+	color: #A6D4FE;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #4D99CB;
+}
+
+a:active {
+	color: #F5C601;
+}
+
+/* Stránka s textem */
+
+h1 {
+	font-family: 'Nunito', Calibri, sans-serif;
+	font-weight: 800;
+	color: #BACFFF;
+	font-size: 2em;
+	margin: 20px 0 10px 0;
+}
+
+h2 {
+	font-family: 'Nunito', Calibri, sans-serif;
+	font-weight: 800;
+	color: #BACFFF;
+	font-size: 1.7em;
+	margin: 20px 0 10px 0;
+}
+
+h3 {
+	font-family: 'Nunito', Calibri, sans-serif;
+	font-weight: 800;
+	color: #BACFFF;
+	font-size: 1.3em;
+	margin: 20px 0 10px 0;
+}
+
+ul.contents {
+	padding-left: 15px;
+	border-left: 3px solid #757575;
+	list-style-type: none;
+}
+
+.author {
+	font-size: small;
+	font-weight: bold;
+}
+
+.bigtext {
+	font-weight: bold;
+}
+
+/* Citace */
+
+p.citace {
+	font-size: 0.7em;
+}
+
+/* Obrázky v textu */
+
+p {
+	overflow: auto;
+}
+
+p .imgright {
+	float: right;
+    margin-left: 10px;
+}
+
+p .imgleft {
+	float: left;
+	margin-right: 10px;
+}
+
+/* Tabulka */
+
+table, th, td {
+	border-style: none;
+	background-color: #55585b;
+}
+
+th {
+	background-color: rgb(112, 112, 112);
+}
+
+td {
+	text-align: center;
+	height: 2.5em;
+}
+
+div.table {
+	overflow-x: auto;
+}
+
+.timetable {
+	width: 100%;
+}
+
+.timetable .cviceni {
+	border: 1px solid #757575;
+	background-color: #50655a;
+}
+
+.timetable .prednaska {
+	border: 1px solid #757575;
+	background-color: #5d5d5d;
+}
+
+.timetable-info {
+	font-size: 0.7em;
+}
+
+/* Patička */
+
+footer {
+	font-size: 0.8em;
+	border-top: 1px solid #757575;
+	padding: 10px 20px;
+	display: flex;
+}
+
+footer .left {
+	flex: 100%;
+    margin: auto;
+}
+footer .right {
+	flex: 1;
+	margin: auto;
+	display: flex;
+}
+
+footer svg {
+	vertical-align: middle;
+	height: 30px;
+	width: auto;
+	margin-left: 10px;
+}
+
+/* Formuláře */
+
+input[type="text"], input[type="email"] {
+	width: 200px;
+	padding: 3px;
+	margin-right: 5px;
+}
+
+input[type="submit"] {
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid #757575;
+    background-color: rgb(112, 112, 112);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+	background-color: #5d5d5d;
+}
+
+input[type="submit"]:active {
+	background-color: #888888;
+}
+
+.warnbox {
+	display: inline-block;
+	padding: 0 5px;
+	border: 1px solid #757575;
+}
+
+.warnbox.msg {
+	display: block;
+    width: fit-content;
+}
+
+.warnbox.info {
+	display: block;
+	margin-bottom: 10px;
+	padding: 5px;
+	text-align: center;
+}
+
+.warnbox.blue {
+	background-color: rgba(0, 62, 114, 0.2);
+}
+
+.warnbox.green {
+	background-color: rgba(21, 101, 26, 0.2);
+}
+
+.warnbox.red {
+	background-color: rgba(176, 0, 0, 0.2);
+}
+
+.warnbox.hide {
+	display: none;
+}
+
+/* Responzivita */
+
+@media only screen and (max-width: 768px) {
+    #wrap {
+        max-width: none;
+        min-width: 100%;
+	}
+
+	input[type="text"], input[type="email"] {
+		width: 100%;
+		margin-right: 0;
+		box-sizing: border-box;
+	}
+}
