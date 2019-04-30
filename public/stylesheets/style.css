@@ -185,14 +185,13 @@ div.table {
 	width: 100%;
 }
 
-.timetable .cviceni {
-	border: 1px solid #757575;
-	background-color: #50655a;
-}
-
-.timetable .prednaska {
+table .polozka {
 	border: 1px solid #757575;
 	background-color: #5d5d5d;
+}
+
+table .polozka:hover {
+	background-color: #50655a;
 }
 
 .timetable-info {

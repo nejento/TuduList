@@ -1,7 +1,9 @@
 const express = require('express');
 let router = express.Router();
 
-//TODO: Přidat knihovnu XSS, která automaticky odstraní XSS skripty
+/*TODO: Přidat knihovnu XSS, která automaticky odstraní XSS skripty
+ * Přidat ověření, že se nepřidává prázdný task
+ */
 
 let polozky = [
     { id: 1, task: "bob" },

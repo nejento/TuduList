@@ -10,11 +10,19 @@
         <input type="submit" />
     </form>
 
+    <table id="list" style="width:100%">
+        <% for (let i = 0; i < polozky.length; i++) { %>
+            <tr><td class="polozka"><%= polozky[i].id %> - <%= polozky[i].task %></td></tr>
+        <% } %>
+    </table>
+    <!--
     <ul id="list">
         <% for (let i = 0; i < polozky.length; i++) { %>
             <li><%= polozky[i].id %> - <%= polozky[i].task %></li>
         <% } %>
     </ul>
+    -->
+
 
 </div>
 
@@ -29,10 +37,13 @@
         xhr.onload = function() {
             if (xhr.status === 200) {
                 let response = JSON.parse(xhr.responseText);
-                let node = document.createElement("li");
+                let parent = document.createElement("tr");
+                let node = document.createElement("td");
                 let textnode = document.createTextNode(response.id + " - " + response.task);
+                node.classList.add('polozka');
                 node.appendChild(textnode);
-                document.getElementById("list").appendChild(node);
+                parent.appendChild(node);
+                document.getElementById("list").getElementsByTagName("tbody")[0].appendChild(parent);
             } else if (xhr.status !== 200) {
                 alert('Požadavek selhal. Chyba ' + xhr.status);
             }
