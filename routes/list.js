@@ -26,10 +26,14 @@ router.post('/add', (req, res) => {
     res.send({id: newID, task: req.body.task});
 });
 
-/*
-router.delete('/', (req, res) => {
-    res.send('Got a DELETE request');
+router.post('/edit', (req, res) => {
+    console.log(Object.values(polozky));
 });
-*/
+
+router.delete('/remove', (req, res) => {
+    let taskToRemove = polozky.map(p => p.id).indexOf(req.body.task);
+    polozky.splice(taskToRemove, 1);
+    res.send('true');
+});
 
 module.exports = router;

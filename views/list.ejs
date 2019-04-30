@@ -10,15 +10,41 @@
         <input type="submit" />
     </form>
 
-    <table id="list" style="width:100%">
+    <table id="list" style="width: 100%">
         <% for (let i = 0; i < polozky.length; i++) { %>
-            <tr><td class="polozka"><%= polozky[i].id %> - <%= polozky[i].task %></td></tr>
+            <tr id="task-<%= polozky[i].id %>">
+                <td class="polozka"><%= polozky[i].id %> - <%= polozky[i].task %></td>
+                <td class="tlacitka"><button class="edit">Upravit</button><button class="remove">Odstranit</button></td>
+            </tr>
         <% } %>
     </table>
 
 </div>
 
 <script type="text/javascript">
+    Array.from(document.getElementsByClassName("remove")).forEach(e => {
+        e.addEventListener('click', a => {
+            a.preventDefault();
+            let taskID = a.target.parentElement.parentElement.id.replace("task-", "");
+                xhr = new XMLHttpRequest();
+
+            xhr.open('DELETE', '/list/remove');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    if (xhr.responseText === "true") {
+                        a.target.parentElement.parentElement.remove();
+                    } else {
+                        alert("Položku se nepodařilo odstranit");
+                    }
+                } else if (xhr.status !== 200) {
+                    alert('Požadavek selhal. Chyba ' + xhr.status);
+                }
+            };
+            xhr.send(encodeURI('task=' + taskID));
+        });
+    });
+
     document.getElementById("addTask").addEventListener('submit', e => {
         e.preventDefault();
         let task = document.getElementById("task").value,
