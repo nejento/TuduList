@@ -5,17 +5,41 @@
     <p class="bigtext">Přehledný seznam dokončených a nedokončených úkolů.</p>
 </div>
 <div id="body">
-    <form method="POST" action="/submit-form">
-        <input type="text" name="username" />
+    <form id="addTask" method="POST" action="/list">
+        <input type="text" id="task"/>
         <input type="submit" />
     </form>
 
-    <ul>
+    <ul id="list">
         <% for (let i = 0; i < polozky.length; i++) { %>
             <li><%= polozky[i].id%> - <%= polozky[i].name%></li>
         <% } %>
     </ul>
 
 </div>
+
+<script type="text/javascript">
+    document.getElementById("addTask").addEventListener('submit', e => {
+        e.preventDefault();
+        let task = document.getElementById("task").value,
+            xhr = new XMLHttpRequest();
+
+        xhr.open('POST', '/list');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200 && xhr.responseText !== task) {
+                alert('Něco se pokazilo. Položka je nyní ' + xhr.responseText);
+                console.log(xhr.responseText);
+            } else if (xhr.status === 200) {
+                let node = document.createElement("li").appendChild(document.createTextNode(xhr.responseText));
+                document.getElementById("list").appendChild(node);
+            } else if (xhr.status !== 200) {
+                alert('Požadavek selhal. Chyba ' + xhr.status);
+            }
+        };
+        xhr.send(encodeURI('task=' + task));
+    });
+</script>
+
 
 <% include ../templates/footer %>
