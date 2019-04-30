@@ -13,16 +13,13 @@ let polozky = [
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
-    //res.send('respond with a resource');
     res.render('list', {
         title: 'Seznam',
         polozky: polozky
     });
-    console.log("Načítám");
-    console.log(polozky);
 });
 
-router.post('/', (req, res) => {
+router.post('/add', (req, res) => {
     let newID = Math.max(...polozky.map(p => p.id)) + 1;
     polozky.push({id: newID, task: req.body.task});
     console.log(polozky);

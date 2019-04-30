@@ -5,7 +5,7 @@
     <p class="bigtext">Přehledný seznam dokončených a nedokončených úkolů.</p>
 </div>
 <div id="body">
-    <form id="addTask" method="POST" action="/list">
+    <form id="addTask">
         <input type="text" id="task"/>
         <input type="submit" />
     </form>
@@ -15,14 +15,6 @@
             <tr><td class="polozka"><%= polozky[i].id %> - <%= polozky[i].task %></td></tr>
         <% } %>
     </table>
-    <!--
-    <ul id="list">
-        <% for (let i = 0; i < polozky.length; i++) { %>
-            <li><%= polozky[i].id %> - <%= polozky[i].task %></li>
-        <% } %>
-    </ul>
-    -->
-
 
 </div>
 
@@ -32,7 +24,7 @@
         let task = document.getElementById("task").value,
             xhr = new XMLHttpRequest();
 
-        xhr.open('POST', '/list');
+        xhr.open('POST', '/list/add');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function() {
             if (xhr.status === 200) {
