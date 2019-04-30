@@ -4,9 +4,9 @@ let router = express.Router();
 //TODO: Přidat knihovnu XSS, která automaticky odstraní XSS skripty
 
 let polozky = [
-    { id: 1, name: "bob" },
-    { id: 2, name: "john" },
-    { id: 3, name: "jake" }
+    { id: 1, task: "bob" },
+    { id: 2, task: "john" },
+    { id: 3, task: "jake" }
 ];
 
 /* GET users listing. */
@@ -16,12 +16,15 @@ router.get('/', (req, res, next) => {
         title: 'Seznam',
         polozky: polozky
     });
+    console.log("Načítám");
+    console.log(polozky);
 });
 
 router.post('/', (req, res) => {
-    polozky.push({id: Math.max(...polozky.map(p => p.id)) + 1, name: req.body.task});
-    res.send(req.body.task);
-    console.log(req.body.task);
+    let newID = Math.max(...polozky.map(p => p.id)) + 1;
+    polozky.push({id: newID, task: req.body.task});
+    console.log(polozky);
+    res.send({id: newID, task: req.body.task});
 });
 
 /*

@@ -12,7 +12,7 @@
 
     <ul id="list">
         <% for (let i = 0; i < polozky.length; i++) { %>
-            <li><%= polozky[i].id%> - <%= polozky[i].name%></li>
+            <li><%= polozky[i].id %> - <%= polozky[i].task %></li>
         <% } %>
     </ul>
 
@@ -27,11 +27,11 @@
         xhr.open('POST', '/list');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function() {
-            if (xhr.status === 200 && xhr.responseText !== task) {
-                alert('Něco se pokazilo. Položka je nyní ' + xhr.responseText);
-                console.log(xhr.responseText);
-            } else if (xhr.status === 200) {
-                let node = document.createElement("li").appendChild(document.createTextNode(xhr.responseText));
+            if (xhr.status === 200) {
+                let response = JSON.parse(xhr.responseText);
+                let node = document.createElement("li");
+                let textnode = document.createTextNode(response.id + " - " + response.task);
+                node.appendChild(textnode);
                 document.getElementById("list").appendChild(node);
             } else if (xhr.status !== 200) {
                 alert('Požadavek selhal. Chyba ' + xhr.status);
