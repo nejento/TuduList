@@ -20,7 +20,8 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/add', (req, res) => {
-    let newID = Math.max(...polozky.map(p => p.id)) + 1;
+    let maxID = Math.max(...polozky.map(p => p.id));
+    let newID = (maxID < 0 ? 0 : maxID) + 1;
     polozky.push({id: newID, task: req.body.task});
     console.log(polozky);
     res.send({id: newID, task: req.body.task});

@@ -11,14 +11,15 @@
     </form>
 
     <table id="list" style="width: 100%">
-        <% for (let i = 0; i < polozky.length; i++) { %>
-            <tr id="task-<%= polozky[i].id %>">
-                <td class="polozka"><%= polozky[i].id %> - <%= polozky[i].task %></td>
-                <td class="tlacitka"><button class="edit">Upravit</button><button class="remove">Odstranit</button></td>
-            </tr>
-        <% } %>
+        <tbody>
+            <% for (let i = 0; i < polozky.length; i++) { %>
+                <tr id="task-<%= polozky[i].id %>">
+                    <td class="polozka"><%= polozky[i].id %> - <%= polozky[i].task %></td>
+                    <td class="tlacitka"><button class="edit">Upravit</button><button class="remove">Odstranit</button></td>
+                </tr>
+            <% } %>
+        </tbody>
     </table>
-
 </div>
 
 <script type="text/javascript">
