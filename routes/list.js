@@ -18,20 +18,29 @@ router.get('/', (req, res, next) => {
     });
 });
 
+// Přidání položky
 router.post('/add', (req, res) => {
     let maxID = Math.max(...polozky.map(p => p.id));
     let newID = (maxID < 0 ? 0 : maxID) + 1;
+    console.log(`Adding task with ID: ${newID} with text: ${req.body.task}`);
     polozky.push({id: newID, task: req.body.task});
-    console.log(polozky);
-    res.send({id: newID, task: req.body.task});
+    res.send({id: "task-" + newID, task: polozky[newID].task});
 });
 
-router.post('/edit', (req, res) => {
-    console.log(Object.values(polozky));
+//Editace položky
+router.put('/edit', (req, res) => {
+    let taskToEdit = polozky.findIndex((p => p.id === parseInt(req.body.id.replace("task-", ""))));
+    console.log(taskToEdit);
+    console.log(`Editing task ID: ${taskToEdit} with text: ${req.body.task}`);
+    polozky[taskToEdit].task = req.body.task;
+    console.log(polozky[taskToEdit].task);
+    res.send({task: polozky[taskToEdit].task});
 });
 
+//Odstranění položky
 router.delete('/remove', (req, res) => {
-    let taskToRemove = polozky.map(p => p.id).indexOf(req.body.task);
+    let taskToRemove = polozky.findIndex(p => p.id === parseInt(req.body.id.replace("task-", "")));
+    console.log(`Removing task ID: ${taskToRemove} with text: ${polozky[taskToRemove].task}`);
     polozky.splice(taskToRemove, 1);
     res.send('true');
 });

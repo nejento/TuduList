@@ -14,7 +14,7 @@
         <tbody>
             <% for (let i = 0; i < polozky.length; i++) { %>
                 <tr id="task-<%= polozky[i].id %>">
-                    <td class="polozka"><%= polozky[i].id %> - <%= polozky[i].task %></td>
+                    <td class="polozka"><%= polozky[i].task %></td>
                     <td class="tlacitka"><button class="edit">Upravit</button><button class="remove">Odstranit</button></td>
                 </tr>
             <% } %>
@@ -32,21 +32,44 @@
             let taskID = c.target.parentElement.parentElement.id;
             if (document.getElementsByName("editForm-" + taskID).length === 0) {
                 let polozka = document.getElementById(taskID).getElementsByClassName("polozka")[0];
+
+                //Define form
                 let form = document.createElement("form");
                 form.name = "editForm-" + taskID;
+                //Define Form Textbox
                 let formTextbox = document.createElement("input");
                 formTextbox.type = "textbox";
                 formTextbox.name = "formTextbox" + taskID;
-                formTextbox.value = polozka.innerHTML;
+                formTextbox.value = polozka.innerText;
+                polozka.innerText = ""; //Vyklidí pole pro input box
+                //Define Form Input button
                 let formSubmit = document.createElement("input");
                 formSubmit.type = "submit";
                 formSubmit.value = "Uložit";
+                //Connect form together
                 form.appendChild(formTextbox);
                 form.appendChild(formSubmit);
                 polozka.appendChild(form);
-                //let textnode = document.createTextNode(polozka.innerHTML);
-            } else {
-                console.log("Already exists");
+
+                document.getElementsByName(form.name)[0].addEventListener('submit', e => {
+                    e.preventDefault();
+                    let task = document.getElementsByName(formTextbox.name)[0].value,
+                        xhr = new XMLHttpRequest();
+
+                    xhr.open('PUT', '/list/edit');
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.onload = () => {
+                        if (xhr.status === 200) {
+                            let response = JSON.parse(xhr.responseText);
+                            let textnode = document.createTextNode(response.task);
+                            polozka.innerHTML = "";
+                            polozka.appendChild(textnode);
+                        } else if (xhr.status !== 200) {
+                            alert('Požadavek selhal. Chyba ' + xhr.status);
+                        }
+                    };
+                    xhr.send(encodeURI('id=' + taskID + '&task=' + task));
+                });
             }
         }
     });
@@ -54,7 +77,7 @@
     Array.from(document.getElementsByClassName("remove")).forEach(e => {
         e.addEventListener('click', a => {
             a.preventDefault();
-            let taskID = a.target.parentElement.parentElement.id.replace("task-", "");
+            let taskID = a.target.parentElement.parentElement.id;
             let xhr = new XMLHttpRequest();
 
             xhr.open('DELETE', '/list/remove');
@@ -70,28 +93,28 @@
                     alert('Požadavek selhal. Chyba ' + xhr.status);
                 }
             };
-            xhr.send(encodeURI('task=' + taskID));
+            xhr.send(encodeURI('id=' + taskID));
         });
     });
 
 
 
     document.getElementById("addTask").addEventListener('submit', e => {
-        console.log(e);
         e.preventDefault();
         let task = document.addTask.taskText.value,
             xhr = new XMLHttpRequest();
 
         xhr.open('POST', '/list/add');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onload = function() {
+        xhr.onload = () => {
             if (xhr.status === 200) {
                 let response = JSON.parse(xhr.responseText);
                 let parent = document.createElement("tr");
                 let node = document.createElement("td");
-                let textnode = document.createTextNode(response.id + " - " + response.task);
+                let textnode = document.createTextNode(response.task);
                 node.classList.add('polozka');
                 node.appendChild(textnode);
+                parent.id = response.id;
                 parent.appendChild(node);
                 document.getElementById("list").getElementsByTagName("tbody")[0].appendChild(parent);
             } else if (xhr.status !== 200) {
