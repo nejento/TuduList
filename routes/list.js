@@ -30,10 +30,8 @@ router.post('/add', (req, res) => {
 //Editace položky
 router.put('/edit', (req, res) => {
     let taskToEdit = polozky.findIndex((p => p.id === parseInt(req.body.id.replace("task-", ""))));
-    console.log(taskToEdit);
     console.log(`Editing task ID: ${taskToEdit} with text: ${req.body.task}`);
     polozky[taskToEdit].task = req.body.task;
-    console.log(polozky[taskToEdit].task);
     res.send({task: polozky[taskToEdit].task});
 });
 
