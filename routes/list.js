@@ -24,7 +24,7 @@ router.post('/add', (req, res) => {
     let newID = (maxID < 0 ? 0 : maxID) + 1;
     console.log(`Adding task with ID: ${newID} with text: ${req.body.task}`);
     polozky.push({id: newID, task: req.body.task});
-    res.send({id: "task-" + newID, task: polozky[newID].task});
+    res.send({id: "task-" + newID, task: req.body.task});
 });
 
 //Editace položky
