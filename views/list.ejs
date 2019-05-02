@@ -5,8 +5,8 @@
     <p class="bigtext">Přehledný seznam dokončených a nedokončených úkolů.</p>
 </div>
 <div id="body">
-    <form id="addTask">
-        <input type="text" id="task"/>
+    <form id="addTask" name="addTask">
+        <input type="text" name="taskText"/>
         <input type="submit" />
     </form>
 
@@ -23,11 +23,39 @@
 </div>
 
 <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", e => {
+        //TODO: Přidat sem
+    });
+
+    document.addEventListener("click", c => {
+        if (c.target.nodeName.toLowerCase() === "button" && c.target.parentElement.parentElement.id.includes("task-")) {
+            let taskID = c.target.parentElement.parentElement.id;
+            if (document.getElementsByName("editForm-" + taskID).length === 0) {
+                let polozka = document.getElementById(taskID).getElementsByClassName("polozka")[0];
+                let form = document.createElement("form");
+                form.name = "editForm-" + taskID;
+                let formTextbox = document.createElement("input");
+                formTextbox.type = "textbox";
+                formTextbox.name = "formTextbox" + taskID;
+                formTextbox.value = polozka.innerHTML;
+                let formSubmit = document.createElement("input");
+                formSubmit.type = "submit";
+                formSubmit.value = "Uložit";
+                form.appendChild(formTextbox);
+                form.appendChild(formSubmit);
+                polozka.appendChild(form);
+                //let textnode = document.createTextNode(polozka.innerHTML);
+            } else {
+                console.log("Already exists");
+            }
+        }
+    });
+
     Array.from(document.getElementsByClassName("remove")).forEach(e => {
         e.addEventListener('click', a => {
             a.preventDefault();
             let taskID = a.target.parentElement.parentElement.id.replace("task-", "");
-                xhr = new XMLHttpRequest();
+            let xhr = new XMLHttpRequest();
 
             xhr.open('DELETE', '/list/remove');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -46,9 +74,12 @@
         });
     });
 
+
+
     document.getElementById("addTask").addEventListener('submit', e => {
+        console.log(e);
         e.preventDefault();
-        let task = document.getElementById("task").value,
+        let task = document.addTask.taskText.value,
             xhr = new XMLHttpRequest();
 
         xhr.open('POST', '/list/add');

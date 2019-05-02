@@ -11,7 +11,6 @@ let polozky = [
     { id: 3, task: "jake" }
 ];
 
-/* GET users listing. */
 router.get('/', (req, res, next) => {
     res.render('list', {
         title: 'Seznam',
