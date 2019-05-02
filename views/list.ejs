@@ -30,7 +30,8 @@
     document.addEventListener("click", c => {
         if (c.target.nodeName.toLowerCase() === "button" && c.target.parentElement.parentElement.id.includes("task-")) {
             let taskID = c.target.parentElement.parentElement.id;
-            if (document.getElementsByName("editForm-" + taskID).length === 0) {
+
+            if (c.target.classList[0] === "edit" && document.getElementsByName("editForm-" + taskID).length === 0) { // Editace tasku
                 let polozka = document.getElementById(taskID).getElementsByClassName("polozka")[0];
 
                 //Define form
@@ -70,36 +71,31 @@
                     };
                     xhr.send(encodeURI('id=' + taskID + '&task=' + task));
                 });
+            } else if (c.target.classList[0] === "remove") { // Odstranění tasku
+                console.log("Got here");
+                c.preventDefault();
+                let taskID = c.target.parentElement.parentElement.id;
+                let xhr = new XMLHttpRequest();
+
+                xhr.open('DELETE', '/list/remove');
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        if (xhr.responseText === "true") {
+                            c.target.parentElement.parentElement.remove();
+                        } else {
+                            alert("Položku se nepodařilo odstranit");
+                        }
+                    } else if (xhr.status !== 200) {
+                        alert('Požadavek selhal. Chyba ' + xhr.status);
+                    }
+                };
+                xhr.send(encodeURI('id=' + taskID));
             }
         }
     });
 
-    Array.from(document.getElementsByClassName("remove")).forEach(e => {
-        e.addEventListener('click', a => {
-            a.preventDefault();
-            let taskID = a.target.parentElement.parentElement.id;
-            let xhr = new XMLHttpRequest();
-
-            xhr.open('DELETE', '/list/remove');
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    if (xhr.responseText === "true") {
-                        a.target.parentElement.parentElement.remove();
-                    } else {
-                        alert("Položku se nepodařilo odstranit");
-                    }
-                } else if (xhr.status !== 200) {
-                    alert('Požadavek selhal. Chyba ' + xhr.status);
-                }
-            };
-            xhr.send(encodeURI('id=' + taskID));
-        });
-    });
-
-
-
-    document.getElementById("addTask").addEventListener('submit', e => {
+    document.getElementById("addTask").addEventListener('submit', e => { // Přidání tasku
         e.preventDefault();
         let task = document.addTask.taskText.value,
             xhr = new XMLHttpRequest();
