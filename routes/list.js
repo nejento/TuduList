@@ -2,7 +2,9 @@ const express = require('express');
 let router = express.Router();
 
 /*TODO: Přidat knihovnu XSS, která automaticky odstraní XSS skripty
- * Přidat ověření, že se nepřidává prázdný task
+ * Přidat MySQL připojení
+ * Přidat přihlášení
+ * Přidat označení hotové položky
  */
 
 let polozky = [
