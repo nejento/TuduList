@@ -20,11 +20,15 @@ router.get('/', (req, res, next) => {
 
 // Přidání položky
 router.post('/add', (req, res) => {
+    if (req.body.task.trim().length <= 0) {
+        res.status(406);
+        res.send('Přidávaná položka nesmí mít nulovou velikost');
+    }
     let maxID = Math.max(...polozky.map(p => p.id));
     let newID = (maxID < 0 ? 0 : maxID) + 1;
     console.log(`Adding task with ID: ${newID} with text: ${req.body.task}`);
-    polozky.push({id: newID, task: req.body.task});
-    res.send({id: "task-" + newID, task: req.body.task});
+    polozky.push({id: newID, task: req.body.task.trim()});
+    res.send({id: "task-" + newID, task: req.body.task.trim()});
 });
 
 //Editace položky
