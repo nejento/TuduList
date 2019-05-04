@@ -1,8 +1,7 @@
 const express = require('express');
 let router = express.Router();
 
-/*TODO: Přidat knihovnu XSS, která automaticky odstraní XSS skripty
- * Přidat MySQL připojení
+/*TODO:
  * Přidat označení hotové položky
  * Přidat kontroly XSS injection
  * Nahodit na server
