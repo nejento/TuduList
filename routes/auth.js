@@ -1,11 +1,11 @@
 const express = require('express');
-const db = require('db');
+const db = require('../db');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 let router = express.Router();
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
     if (req.session.loggedin) {
         res.redirect('/list');
     } else {
@@ -26,7 +26,7 @@ router.post('/login', (req, res) => {
                         if (!e) {
                             if (r) {
                                 req.session.loggedin = true;
-                                req.session.uid = results[0].id;
+                                req.session.userid = results[0].id;
                                 req.session.username = results[0].username;
                                 req.session.afterLogin = true;
                                 res.redirect('/list');
@@ -60,7 +60,7 @@ router.post('/login', (req, res) => {
     }
 });
 
-router.get('/logout', (req, res, next) => {
+router.get('/logout', (req, res) => {
     if (req.session.loggedin) {
         req.session.loggedin = false;
         req.session.username = "";
@@ -71,13 +71,13 @@ router.get('/logout', (req, res, next) => {
     }
 });
 
-router.get('/register', (req, res, next) => {
+router.get('/register', (req, res) => {
     res.render('register', {
         title: 'Registrace',
     });
 });
 
-router.post('/register', (req, res, next) => {
+router.post('/register', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     if (username && password) {
@@ -92,7 +92,6 @@ router.post('/register', (req, res, next) => {
             } else {
                 db.getConnection((err, conn) => {
                     conn.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hash], (err, results, fields) => {
-                        console.log(results);
                         if (results.affectedRows > 0) {
                             res.render('register', {
                                 title: 'Registrace',
