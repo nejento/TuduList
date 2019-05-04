@@ -1,17 +1,11 @@
 <% include ../templates/header %>
 
-<!--
-<div id="header">
-    <h1>Přihlašování</h1>
-    <p class="bigtext">Pro správu Vašich položek se prosím přihlaste.</p>
-</div>
--->
 <div id="body" class="login-form">
-    <h2>Přihlaste se</h2>
+    <h1>Přihlaste se</h1>
     <p class="bigtext">Pro správu Vašich položek se prosím přihlaste.</p>
     <form id="login" name="login" autocomplete="off" method="post" action="/auth/login">
-        <input type="text" name="username" placeholder="Uživatelské jméno" maxlength="40" required/><br/>
-        <input type="password" name="password" placeholder="Heslo" required/><br/>
+        <input type="text" name="username" placeholder="Uživatelské jméno" maxlength="40" <% if (typeof username == "string") { %> value="<%= username %>" <% } %>/><br/>
+        <input type="password" name="password" placeholder="Heslo"/><br/>
         <input type="submit" value="Přihlásit se"/>
     </form>
 </div>

@@ -1,10 +1,11 @@
 const express = require('express');
 const mysql = require('mysql');
-const querystring = require('querystring');
+const bcrypt = require('bcrypt');
 
 let router = express.Router();
 
-let conn = mysql.createConnection({
+let pool = mysql.createPool({
+    connectionLimit: 5,
     host: 'localhost',
     user: 'tudu',
     password: 'password',
@@ -25,27 +26,30 @@ router.post('/login', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     if (username && password) {
-        if (username === password) {
-            req.session.loggedin = true;
-            req.session.username = username;
-            res.redirect('/list');
-        }
-        /*
-        connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+        pool.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results, fields) => {
             if (results.length > 0) {
                 req.session.loggedin = true;
-                req.session.username = username;
-                res.redirect('/home');
+                req.session.uid = results[0].id;
+                req.session.username = results[0].username;
+                req.session.afterLogin = true;
+                res.redirect('/list');
             } else {
-                res.send('Incorrect Username and/or Password!');
+                res.render('auth', {
+                    title: 'Přihlašování',
+                    username: username,
+                    infobox: "Zadali jste špatné uživatelské jméno nebo heslo Zkuste to znovu.",
+                    infoboxType: "error"
+                });
             }
-            res.end();
         });
-         */
-    }/* else {
-        res.send('Please enter Username and Password!');
-        res.end();
-    } */
+
+    } else {
+        res.render('auth', {
+            title: 'Přihlašování',
+            infobox: "Zadejte uživatelské jméno a heslo.",
+            infoboxType: "warn"
+        });
+    }
 });
 
 router.get('/logout', (req, res, next) => {

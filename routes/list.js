@@ -3,7 +3,6 @@ let router = express.Router();
 
 /*TODO: Přidat knihovnu XSS, která automaticky odstraní XSS skripty
  * Přidat MySQL připojení
- * Přidat přihlášení
  * Přidat označení hotové položky
  * Přidat kontroly XSS injection
  * Nahodit na server
@@ -17,11 +16,20 @@ let polozky = [
 
 router.get('/', (req, res, next) => {
     if (req.session.loggedin) {
-        res.render('list', {
-            title: 'Seznam',
-            polozky: polozky,
-            loggedin: true
-        });
+        if (req.session.afterLogin) {
+            req.session.afterLogin = false;
+            res.render('list', {
+                title: 'Seznam',
+                polozky: polozky,
+                infobox: "Byli jste úspěšně přihlášeni",
+                infoboxType: "ok"
+            });
+        } else {
+            res.render('list', {
+                title: 'Seznam',
+                polozky: polozky
+            });
+        }
     } else {
         res.redirect("/auth");
     }
