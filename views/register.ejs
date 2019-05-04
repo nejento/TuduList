@@ -1,0 +1,13 @@
+<% include ../templates/header %>
+
+<div id="body" class="login-form">
+    <h1>Registrace uživatele</h1>
+    <p class="bigtext">Technická stránka pro vytvořené nového uživatele do databáze z důvodu absence plnohodnotné registrace.</p>
+    <form id="login" name="login" autocomplete="off" method="post" action="/auth/register">
+        <input type="text" name="username" placeholder="Uživatelské jméno" maxlength="40" required/><br/>
+        <input type="password" name="password" placeholder="Heslo" required/><br/>
+        <input type="submit" value="Zaregistrovat"/>
+    </form>
+</div>
+
+<% include ../templates/footer %>

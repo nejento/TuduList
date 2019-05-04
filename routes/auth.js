@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 let router = express.Router();
 
@@ -26,18 +27,31 @@ router.post('/login', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     if (username && password) {
-        pool.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results, fields) => {
+        pool.query('SELECT * FROM users WHERE username = ?', username, (err, results, fields) => {
             if (results.length > 0) {
-                req.session.loggedin = true;
-                req.session.uid = results[0].id;
-                req.session.username = results[0].username;
-                req.session.afterLogin = true;
-                res.redirect('/list');
+                bcrypt.compare(password, results[0].password, (e, r) => {
+                    if (!e) {
+                        if (r) {
+                            req.session.loggedin = true;
+                            req.session.uid = results[0].id;
+                            req.session.username = results[0].username;
+                            req.session.afterLogin = true;
+                            res.redirect('/list');
+                        } else {
+                            res.render('auth', {
+                                title: 'Přihlašování',
+                                username: username,
+                                infobox: "Zadali jste špatné uživatelské jméno nebo heslo Zkuste to znovu.",
+                                infoboxType: "error"
+                            });
+                        }
+                    }
+                });
             } else {
                 res.render('auth', {
                     title: 'Přihlašování',
                     username: username,
-                    infobox: "Zadali jste špatné uživatelské jméno nebo heslo Zkuste to znovu.",
+                    infobox: "Něco se pokazilo. Zkuste to prosím později.",
                     infoboxType: "error"
                 });
             }
@@ -60,6 +74,53 @@ router.get('/logout', (req, res, next) => {
         res.redirect("/");
     } else {
         res.redirect("/");
+    }
+});
+
+router.get('/register', (req, res, next) => {
+    res.render('register', {
+        title: 'Registrace',
+    });
+});
+
+router.post('/register', (req, res, next) => {
+    let username = req.body.username;
+    let password = req.body.password;
+    if (username && password) {
+        bcrypt.hash(password, saltRounds, (err, hash) => {
+            if (err) {
+                res.render('register', {
+                    title: 'Registrace',
+                    username: username,
+                    infobox: "Nepovedlo se správně zahashovat heslo.",
+                    infoboxType: "error"
+                });
+            } else {
+                pool.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hash], (err, results, fields) => {
+                    console.log(results);
+                    if (results.affectedRows > 0) {
+                        res.render('register', {
+                            title: 'Registrace',
+                            infobox: "Uživatel " + username + " byl úspěšně přidán.",
+                            infoboxType: "ok"
+                        });
+                    } else {
+                        res.render('register', {
+                            title: 'Registrace',
+                            username: username,
+                            infobox: "Uživatele se nepovedlo přidat.",
+                            infoboxType: "error"
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        res.render('register', {
+            title: 'Registrace',
+            infobox: "Zadejte uživatelské jméno a heslo.",
+            infoboxType: "warn"
+        });
     }
 });
 
