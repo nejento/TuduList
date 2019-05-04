@@ -5,6 +5,8 @@ let router = express.Router();
  * Přidat MySQL připojení
  * Přidat přihlášení
  * Přidat označení hotové položky
+ * Přidat kontroly XSS injection
+ * Nahodit na server
  */
 
 let polozky = [
@@ -14,45 +16,66 @@ let polozky = [
 ];
 
 router.get('/', (req, res, next) => {
-    res.render('list', {
-        title: 'Seznam',
-        polozky: polozky
-    });
+    if (req.session.loggedin) {
+        res.render('list', {
+            title: 'Seznam',
+            polozky: polozky
+        });
+    } else {
+        res.render('auth', {
+            title: 'Přihlašování'
+        });
+    }
 });
 
 // Přidání položky
 router.post('/add', (req, res) => {
-    if (req.body.task.trim().length <= 0) {
-        res.status(406);
-        res.send('Přidávaná položka nesmí mít nulovou velikost');
+    if (req.session.loggedin) {
+        if (req.body.task.trim().length <= 0) {
+            res.status(406);
+            res.send('Přidávaná položka nesmí mít nulovou velikost');
+        } else {
+            let maxID = Math.max(...polozky.map(p => p.id));
+            let newID = (maxID < 0 ? 0 : maxID) + 1;
+            console.log(`Adding task with ID: ${newID} with text: ${req.body.task}`);
+            polozky.push({id: newID, task: req.body.task.trim()});
+            res.send({id: "task-" + newID, task: req.body.task.trim()});
+        }
     } else {
-        let maxID = Math.max(...polozky.map(p => p.id));
-        let newID = (maxID < 0 ? 0 : maxID) + 1;
-        console.log(`Adding task with ID: ${newID} with text: ${req.body.task}`);
-        polozky.push({id: newID, task: req.body.task.trim()});
-        res.send({id: "task-" + newID, task: req.body.task.trim()});
+        res.send("Not logged in");
     }
+
 });
 
 //Editace položky
 router.put('/edit', (req, res) => {
-    if (req.body.task.trim().length <= 0) {
-        res.status(406);
-        res.send('Upravovaná položka nesmí mít nulovou velikost');
+    if (req.session.loggedin) {
+        if (req.body.task.trim().length <= 0) {
+            res.status(406);
+            res.send('Upravovaná položka nesmí mít nulovou velikost');
+        } else {
+            let taskToEdit = polozky.findIndex((p => p.id === parseInt(req.body.id.replace("task-", ""))));
+            console.log(`Editing task ID: ${taskToEdit} with text: ${req.body.task}`);
+            polozky[taskToEdit].task = req.body.task;
+            res.send({task: polozky[taskToEdit].task});
+        }
     } else {
-        let taskToEdit = polozky.findIndex((p => p.id === parseInt(req.body.id.replace("task-", ""))));
-        console.log(`Editing task ID: ${taskToEdit} with text: ${req.body.task}`);
-        polozky[taskToEdit].task = req.body.task;
-        res.send({task: polozky[taskToEdit].task});
+        res.send("Not logged in");
     }
+
 });
 
 //Odstranění položky
 router.delete('/remove', (req, res) => {
-    let taskToRemove = polozky.findIndex(p => p.id === parseInt(req.body.id.replace("task-", "")));
-    console.log(`Removing task ID: ${taskToRemove} with text: ${polozky[taskToRemove].task}`);
-    polozky.splice(taskToRemove, 1);
-    res.send('true');
+    if (req.session.loggedin) {
+        let taskToRemove = polozky.findIndex(p => p.id === parseInt(req.body.id.replace("task-", "")));
+        console.log(`Removing task ID: ${taskToRemove} with text: ${polozky[taskToRemove].task}`);
+        polozky.splice(taskToRemove, 1);
+        res.send('true');
+    } else {
+        res.send("Not logged in");
+    }
+
 });
 
 module.exports = router;

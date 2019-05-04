@@ -1,11 +1,11 @@
 <% include ../templates/header %>
 
 <div id="header">
-    <h1>Seznam úkolů</h1>
-    <p class="bigtext">Přehledný seznam dokončených a nedokončených úkolů.</p>
+    <h1>Přihlašování</h1>
+    <p class="bigtext">Pro správu Vašich položek se prosím přihlaste.</p>
 </div>
 <div id="body">
-    <form id="login" name="login">
+    <form id="login" name="login" method="post" action="/auth">
         <input type="text" name="username" required/>
         <input type="password" name="password" required/>
         <input type="submit" value="Přihlásit se"/>
