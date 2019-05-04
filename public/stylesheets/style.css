@@ -41,6 +41,7 @@ nav {
     display: flex;
 	background-color: #2A2A2B;
 	padding: 0 10px;
+	justify-content: space-between;
 }
 
 nav ul {
@@ -70,6 +71,10 @@ nav a:hover {
 nav a:active {
 	background-color: #888888;
 	color: #fff;
+}
+
+nav .menu-right {
+	float: right;
 }
 
 /* Tělo stránky */
