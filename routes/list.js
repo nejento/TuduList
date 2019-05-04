@@ -19,12 +19,11 @@ router.get('/', (req, res, next) => {
     if (req.session.loggedin) {
         res.render('list', {
             title: 'Seznam',
-            polozky: polozky
+            polozky: polozky,
+            loggedin: true
         });
     } else {
-        res.render('auth', {
-            title: 'Přihlašování'
-        });
+        res.redirect("/auth");
     }
 });
 

@@ -4,9 +4,10 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
         <title>TUDŮ! &bullet; <%= title %> </title>
-        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i%7CNunito:400,800&amp;subset=latin-ext" rel="stylesheet">
-		<link href="stylesheets/style.css" type="text/css" rel="stylesheet">
-		<link href='stylesheets/print.css' type="text/css" rel="stylesheet" media="print">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i%7CNunito:400,800&amp;subset=latin-ext">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+		<link rel="stylesheet" href="stylesheets/style.css" type="text/css" >
+		<link rel="stylesheet" href='stylesheets/print.css' type="text/css" media="print">
 		<!--[if IE]><link rel="shortcut icon" href="images/favicons/favicon.ico"><![endif]-->
 		<link rel="icon" href="images/favicons/favicon.png">
 		<link rel="apple-touch-icon-precomposed" href="images/favicons/apple-touch-icon-precomposed.png">
@@ -27,8 +28,59 @@
                     <li><a href="/">Domů</a></li>
                     <li><a href="/list">Seznam</a></li>
                 </ul>
-                <ul class="menu-right">
-                    <li><a href="/list">Odhlásit</a></li>
-                </ul>
+                <% if (typeof loggedin == "boolean") {%>
+                    <ul class="menu-right">
+                        <li><a href="/auth/logout">Odhlásit</a></li>
+                    </ul>
+                <% } %>
 
             </nav>
+
+            <% if (typeof infobox == "string") {%>
+                <div class="infobox <% if (typeof infoboxType == "string") {
+                        switch (infoboxType) {
+                            case "ok":
+                            case "done":
+                            case "check":
+                                %>green<%
+                                break;
+                            case "info":
+                            case "information":
+                                %>blue<%
+                                break;
+                            case "warn":
+                            case "warning":
+                                %>yellow<%
+                                break;
+                            case "err":
+                            case "error":
+                                %>red<%
+                                break;
+                            default:
+                                %><%= infoboxType %><%
+                        }
+                    } %> ">
+                    <% if (typeof infoboxType == "string") {
+                        switch (infoboxType) {
+                            case "ok":
+                            case "done":
+                            case "check":
+                                %><i class="fas fa-check"></i><%
+                                break;
+                            case "info":
+                            case "information":
+                                %><i class="fas fa-info"></i><%
+                                break;
+                            case "warn":
+                            case "warning":
+                                %><i class="fas fa-exclamation"></i><%
+                                break;
+                            case "err":
+                            case "error":
+                                %><i class="fas fa-times"></i><%
+                                break;
+                        }
+                    } %>
+                    <%= infobox %>
+                </div>
+            <% } %>

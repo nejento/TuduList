@@ -1,9 +1,10 @@
 const express = require('express');
 const mysql = require('mysql');
+const querystring = require('querystring');
 
 let router = express.Router();
 
-let connection = mysql.createConnection({
+let conn = mysql.createConnection({
     host: 'localhost',
     user: 'tudu',
     password: 'password',
@@ -12,13 +13,15 @@ let connection = mysql.createConnection({
 
 router.get('/', (req, res, next) => {
     if (req.session.loggedin) {
-        res.send('logged in');
+        res.redirect('/list');
     } else {
-        res.send('logged out');
+        res.render('auth', {
+            title: 'Přihlašování'
+        });
     }
 });
 
-router.post('/', (req, res) => {
+router.post('/login', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     if (username && password) {
@@ -43,6 +46,17 @@ router.post('/', (req, res) => {
         res.send('Please enter Username and Password!');
         res.end();
     } */
+});
+
+router.get('/logout', (req, res, next) => {
+    if (req.session.loggedin) {
+        req.session.loggedin = false;
+        req.session.username = "";
+        req.session.loggedout = true;
+        res.redirect("/");
+    } else {
+        res.redirect("/");
+    }
 });
 
 module.exports = router;

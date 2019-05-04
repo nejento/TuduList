@@ -1,13 +1,17 @@
 <% include ../templates/header %>
 
+<!--
 <div id="header">
     <h1>Přihlašování</h1>
     <p class="bigtext">Pro správu Vašich položek se prosím přihlaste.</p>
 </div>
-<div id="body">
-    <form id="login" name="login" method="post" action="/auth">
-        <input type="text" name="username" required/>
-        <input type="password" name="password" required/>
+-->
+<div id="body" class="login-form">
+    <h2>Přihlaste se</h2>
+    <p class="bigtext">Pro správu Vašich položek se prosím přihlaste.</p>
+    <form id="login" name="login" autocomplete="off" method="post" action="/auth/login">
+        <input type="text" name="username" placeholder="Uživatelské jméno" maxlength="40" required/><br/>
+        <input type="password" name="password" placeholder="Heslo" required/><br/>
         <input type="submit" value="Přihlásit se"/>
     </form>
 </div>
