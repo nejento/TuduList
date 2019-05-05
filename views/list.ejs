@@ -5,23 +5,27 @@
     <p class="bigtext">Přehledný seznam dokončených a nedokončených úkolů.</p>
 </div>
 <div id="body">
-    <form id="addTask" name="addTask">
-        <input type="text" name="taskText"/>
-        <input type="submit" value="Přidat"/>
-    </form>
-
+    <div class="addtask">
+        <form id="addTask" name="addTask">
+            <label>Přidat úkol</label>
+            <input type="text" name="taskText"/>
+            <input type="submit" value="Přidat"/>
+        </form>
+    </div>
+    <h2>Úkoly</h2>
     <table id="list" class="tasklist">
         <tbody>
             <% for (let i = 0; i < polozky.length; i++) { if (!polozky[i].done) { %>
                 <tr id="task-<%= polozky[i].id %>">
                     <td class="checkbox"><input type="checkbox" value="Hotovo"></td>
                     <td class="polozka"><%= polozky[i].task %></td>
-                    <td class="tlacitka"><button class="edit">Upravit</button><button class="remove">Odstranit</button></td>
+                    <td class="tlacitka"><button class="edit"></button><button class="remove"></button></td>
                 </tr>
             <% } } %>
         </tbody>
     </table>
     <br/>
+    <h2>Vyřešené úkoly</h2>
     <table id="donelist" class="tasklist">
         <tbody>
         <% for (let i = 0; i < polozky.length; i++) { if (polozky[i].done) { %>
