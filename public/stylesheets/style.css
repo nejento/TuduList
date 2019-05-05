@@ -161,23 +161,35 @@ nav .menu-right {
 	background-color: rgba(21, 101, 26, 0.2);
 }
 
-.valid {
-	color: green;
+.passwordinfo {
+	text-align: left;
+	display: inline-block;
+	width: 330px;
+ }
+
+.passwordinfo p {
+	padding-left: 20px;
+	margin-top: 0;
+	margin-bottom: 5px;
 }
 
-.valid:before {
+.passwordinfo .valid {
+	color: #2cc939;
+}
+
+.passwordinfo .valid:before {
 	position: relative;
-	left: -35px;
+	left: -10px;
 	content: "✔";
 }
 
-.invalid {
-	color: red;
+.passwordinfo .invalid {
+	color: #ff5044;
 }
 
-.invalid:before {
+.passwordinfo .invalid:before {
 	position: relative;
-	left: -35px;
+	left: -10px;
 	content: "✖";
 }
 
@@ -418,40 +430,6 @@ input[type="submit"]:active {
 .addtask input[type="text"] {
 	width: 400px;
 	padding: 5px;
-}
-
-.warnbox {
-	display: inline-block;
-	padding: 0 5px;
-	border: 1px solid #757575;
-}
-
-.warnbox.msg {
-	display: block;
-    width: fit-content;
-}
-
-.warnbox.info {
-	display: block;
-	margin-bottom: 10px;
-	padding: 5px;
-	text-align: center;
-}
-
-.warnbox.blue {
-	background-color: rgba(0, 62, 114, 0.2);
-}
-
-.warnbox.green {
-	background-color: rgba(21, 101, 26, 0.2);
-}
-
-.warnbox.red {
-	background-color: rgba(176, 0, 0, 0.2);
-}
-
-.warnbox.hide {
-	display: none;
 }
 
 /* Responzivita */

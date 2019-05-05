@@ -1,4 +1,4 @@
-<% include ../templates/header %>
+    <% include ../templates/header %>
 
 <div id="body" class="login-form">
     <h1>Registrace uživatele</h1>
@@ -10,14 +10,15 @@
         <input type="checkbox" class="hidePass" onclick="showPass()">Nezakrývat<br/>
         <input type="submit" value="Zaregistrovat"/>
     </form>
-    <div id="message">
-        <h3>Heslo musí minimálně splňovat:</h3>
+    <h3>Heslo musí minimálně splňovat:</h3>
+    <div id="message" class="passwordinfo">
         <p id="letter" class="invalid">Alespoň jedno písmeno</p>
         <p id="number" class="invalid">Alespoň jedno číslo</p>
         <p id="length" class="invalid">Minimálně 8 znaků</p>
         <p id="match" class="invalid">Hesla se musí shodovat</p>
     </div>
 </div>
+
 
 <script>
     let password = document.getElementById("password"),
