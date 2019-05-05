@@ -114,6 +114,7 @@ document.addEventListener("DOMContentLoaded", e => {
                     //Vytvořit checkbox
                     let checkboxNode = document.createElement("td");
                     let checkbox = document.createElement("input");
+                    checkboxNode.classList.add('checkbox');
                     checkbox.type = "checkbox";
                     checkbox.value = "Hotovo";
                     checkboxNode.appendChild(checkbox);
@@ -127,13 +128,10 @@ document.addEventListener("DOMContentLoaded", e => {
                     //Vytvořit tlačítka
                     let buttonNode = document.createElement("td");
                     let editButton = document.createElement("button");
-                    let editButtonTextnode = document.createTextNode("Upravit");
                     let removeButton = document.createElement("button");
-                    let removeButtonTextnode = document.createTextNode("Odstranit");
+                    buttonNode.classList.add('tlacitka');
                     editButton.classList.add('edit');
                     removeButton.classList.add('remove');
-                    editButton.appendChild(editButtonTextnode);
-                    removeButton.appendChild(removeButtonTextnode);
                     buttonNode.appendChild(editButton);
                     buttonNode.appendChild(removeButton);
                     parent.appendChild(buttonNode);
