@@ -105,7 +105,36 @@ router.put('/edit', (req, res) => {
         res.status(401);
         res.send("Not logged in");
     }
+});
 
+//Editace položky
+router.put('/check', (req, res) => {
+    if (req.session.loggedin) {
+        console.log(req.body.done);
+        if (req.body.id && (req.body.done === "check" || req.body.done === "uncheck")) {
+            db.getConnection((err, conn) => {
+                conn.query('UPDATE todos SET done = ? WHERE id = ? AND user = ?', [(req.body.done === "check" ? 1 : 0), req.body.id.replace("task-", ""), req.session.userid], (err, result) => {
+                    if (!err) {
+                        conn.query('SELECT * FROM todos WHERE ?', {id: req.body.id.replace("task-", "")}, (err, results) => {
+                            res.send((results[0].done === 1 ? "checked" : "unchecked"));
+                            //res.send({task: results[0].task, done: results[0].done});
+                        });
+                    } else {
+                        console.log(err);
+                        res.status(406);
+                        res.send("Error: Nepovedlo se upravit task");
+                    }
+                });
+                conn.release();
+            });
+        } else {
+            res.status(406);
+            res.send('Odškrtávaná položka musí obsahovat ID položky a stav odškrtnutí');
+        }
+    } else {
+        res.status(401);
+        res.send("Not logged in");
+    }
 });
 
 //Odstranění položky

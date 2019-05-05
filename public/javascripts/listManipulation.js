@@ -68,6 +68,30 @@ document.addEventListener("DOMContentLoaded", e => {
                 };
                 xhr.send(encodeURI('id=' + taskID));
             }
+        } else if (c.target.type === "checkbox" && c.target.parentElement.parentElement.id.includes("task-")) {
+            let taskID = c.target.parentElement.parentElement.id,
+                xhr = new XMLHttpRequest();
+
+            xhr.open('PUT', '/list/check');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    if (xhr.responseText === "checked") {
+                        let fragment = document.createDocumentFragment();
+                        fragment.appendChild(document.getElementById(taskID));
+                        document.getElementById('donelist').getElementsByTagName("tbody")[0].appendChild(fragment);
+                    } else if (xhr.responseText === "unchecked") {
+                        let fragment = document.createDocumentFragment();
+                        fragment.appendChild(document.getElementById(taskID));
+                        document.getElementById('list').getElementsByTagName("tbody")[0].appendChild(fragment);
+                    } else {
+                        alert("Položku se nepodařilo odškrtnout");
+                    }
+                } else if (xhr.status !== 200) {
+                    alert('Požadavek selhal. Chyba ' + xhr.status);
+                }
+            };
+            xhr.send(encodeURI('id=' + taskID + "&done=" + (c.target.checked ? "check" : "uncheck")));
         }
     });
 
