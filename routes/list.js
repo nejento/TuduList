@@ -6,18 +6,9 @@ let router = express.Router();
  * Přidat označení hotové položky
  * Přidat kontroly XSS injection
  * Nahodit na server
- * Přidat MySQL připojení a správu poznámek
  * Přidat dokumentaci kódu
  * Opravit přidání při prázdném seznamu
  */
-
-/*
-let polozky = [
-    { id: 1, task: "bob" },
-    { id: 2, task: "john" },
-    { id: 3, task: "jake" }
-];
-*/
 
 let getPolozky = (uid, polozky) => {
     db.getConnection((err, conn) => {
@@ -48,7 +39,7 @@ router.get('/', (req, res) => {
                 });
             });
         } else {
-            getPolozky(req.session.id, (polozky) => {
+            getPolozky(req.session.userid, (polozky) => {
                 res.render('list', {
                     title: 'Seznam',
                     polozky: polozky
@@ -121,7 +112,6 @@ router.put('/edit', (req, res) => {
 router.delete('/remove', (req, res) => {
     if (req.session.loggedin) {
         db.getConnection((err, conn) => {
-            //DELETE FROM table_name WHERE condition;
             conn.query('DELETE FROM todos WHERE id = ? AND user = ?', [req.body.id.replace("task-", ""), req.session.userid], (err, result) => {
                 if (!err) {
                     res.send('true');

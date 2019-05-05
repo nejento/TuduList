@@ -10,14 +10,27 @@
         <input type="submit" value="Přidat"/>
     </form>
 
-    <table id="list" style="width: 100%">
+    <table id="list" class="tasklist">
         <tbody>
-            <% for (let i = 0; i < polozky.length; i++) { %>
+            <% for (let i = 0; i < polozky.length; i++) { if (!polozky[i].done) { %>
                 <tr id="task-<%= polozky[i].id %>">
+                    <td class="checkbox"><input type="checkbox" value="Hotovo"></td>
                     <td class="polozka"><%= polozky[i].task %></td>
                     <td class="tlacitka"><button class="edit">Upravit</button><button class="remove">Odstranit</button></td>
                 </tr>
-            <% } %>
+            <% } } %>
+        </tbody>
+    </table>
+    <br/>
+    <table id="donelist" class="tasklist">
+        <tbody>
+        <% for (let i = 0; i < polozky.length; i++) { if (polozky[i].done) { %>
+            <tr id="task-<%= polozky[i].id %>">
+                <td class="checkbox"><input type="checkbox" value="Hotovo" checked></td>
+                <td class="polozka"><%= polozky[i].task %></td>
+                <td class="tlacitka"><button class="edit">Upravit</button><button class="remove">Odstranit</button></td>
+            </tr>
+        <% } } %>
         </tbody>
     </table>
 </div>

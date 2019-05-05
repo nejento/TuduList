@@ -162,7 +162,6 @@ nav .menu-right {
 }
 
 
-
 /* Odkazy */
 
 a {
@@ -261,7 +260,7 @@ div.table {
 	overflow-x: auto;
 }
 
-.timetable {
+.tasklist {
 	width: 100%;
 }
 
@@ -272,10 +271,6 @@ table .polozka {
 
 table .polozka:hover {
 	background-color: #50655a;
-}
-
-.timetable-info {
-	font-size: 0.7em;
 }
 
 /* Patička */

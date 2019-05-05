@@ -85,13 +85,20 @@ document.addEventListener("DOMContentLoaded", e => {
             xhr.onload = () => {
                 if (xhr.status === 200) {
                     let response = JSON.parse(xhr.responseText);
-                    //Vytvořit novou položku seznamu
                     let parent = document.createElement("tr");
+                    parent.id = response.id;
+                    //Vytvořit checkbox
+                    let checkboxNode = document.createElement("td");
+                    let checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkbox.value = "Hotovo";
+                    checkboxNode.appendChild(checkbox);
+                    parent.appendChild(checkboxNode);
+                    //Vytvořit novou položku seznamu
                     let node = document.createElement("td");
                     let textnode = document.createTextNode(response.task);
                     node.classList.add('polozka');
                     node.appendChild(textnode);
-                    parent.id = response.id;
                     parent.appendChild(node);
                     //Vytvořit tlačítka
                     let buttonNode = document.createElement("td");
