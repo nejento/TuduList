@@ -7,6 +7,7 @@ let router = express.Router();
  * Přidat kontroly XSS injection
  * Nahodit na server
  * Přidat dokumentaci kódu
+ * Dodělat stylování
  */
 
 let getPolozky = (uid, polozky) => {
