@@ -136,6 +136,8 @@ document.addEventListener("DOMContentLoaded", e => {
                     parent.appendChild(buttonNode);
                     //Přilepit vytvořené HTML
                     document.getElementById("list").getElementsByTagName("tbody")[0].appendChild(parent);
+                    //Vyčistit pole po přidání
+                    document.addTask.taskText.value = "";
                 } else if (xhr.status !== 200) {
                     alert('Požadavek selhal. Chyba ' + xhr.status);
                 }
