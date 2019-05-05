@@ -5,4 +5,4 @@ Základní seznam úkolů (To-do list) jako semestrální práce předmětu WEAP
 
 **Online nasazení**
 
-Aplikace je dostupná na soukromém VPS na adrese: http://nejento.eu:3000
+Aplikace je dostupná na soukromém VPS na adrese: http://nejento.eu:3000 
