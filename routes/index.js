@@ -2,7 +2,7 @@ const express = require('express');
 let router = express.Router();
 
 /* GET home page. */
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
     let query = {
         title: "Vítejte",
         logged: (req.session.loggedin ? req.session.loggedin : false)

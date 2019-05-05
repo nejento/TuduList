@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('../db');
+const xss = require("xss");
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -16,7 +17,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-    let username = req.body.username;
+    let username = xss(req.body.username.trim());
     let password = req.body.password;
     if (username && password) {
         db.getConnection((err, conn) => {
@@ -78,7 +79,7 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-    let username = req.body.username;
+    let username = xss(req.body.username.trim());
     let password = req.body.password;
     if (username && password) {
         if (/(?=.*\d)((?=.*[a-z])|(?=.*[A-Z])).{8,}/g.test(password)) {
@@ -92,7 +93,7 @@ router.post('/register', (req, res) => {
                     });
                 } else {
                     db.getConnection((err, conn) => {
-                        conn.query('SELECT * FROM users WHERE username = ?', req.body.username, (err, results) => {
+                        conn.query('SELECT * FROM users WHERE username = ?', username, (err, results) => {
                             if (results.length > 0) {
                                 res.render('register', {
                                     title: 'Registrace',
