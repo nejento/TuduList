@@ -98,7 +98,6 @@ document.addEventListener("DOMContentLoaded", e => {
     document.getElementById("addTask").addEventListener('submit', e => { // Přidání tasku
         e.preventDefault();
         if (document.addTask.taskText.value.trim().length <= 0) {
-            //TODO Udělat vlastní alertBox
             alert("Zadaná hodnota musí něco obsahovat");
         } else {
             let task = document.addTask.taskText.value,

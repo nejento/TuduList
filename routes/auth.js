@@ -21,7 +21,7 @@ router.post('/login', (req, res) => {
     let password = req.body.password;
     if (username && password) {
         db.getConnection((err, conn) => {
-            conn.query('SELECT * FROM users WHERE username = ?', username, (err, results, fields) => {
+            conn.query('SELECT * FROM users WHERE username = ?', username, (err, results) => {
                 if (results.length > 0) {
                     bcrypt.compare(password, results[0].password, (e, r) => {
                         if (!e) {
@@ -104,7 +104,7 @@ router.post('/register', (req, res) => {
                             } else {
                                 conn.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hash], (err, result) => {
                                     if (!err) {
-                                        conn.query('INSERT INTO todos (user, task, done) VALUES ?', [[[result.insertId, "Vynést odpadky", 0], [result.insertId, "Nakoupit na příští týden", 0], [result.insertId, "Umýt sporát", 1]]], (err, results) => {
+                                        conn.query('INSERT INTO todos (user, task, done) VALUES ?', [[[result.insertId, "Vynést odpadky", 0], [result.insertId, "Nakoupit na příští týden", 0], [result.insertId, "Umýt sporát", 1]]], (err) => {
                                             if (!err) {
                                                 res.render('auth', {
                                                     title: 'Přihlašování',
