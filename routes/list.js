@@ -3,12 +3,6 @@ const db = require('../db');
 const xss = require("xss");
 let router = express.Router();
 
-/*TODO:
- * Nahodit na server
- * Přidat dokumentaci kódu
- * Dodělat stylování
- */
-
 let getPolozky = (uid, polozky) => {
     db.getConnection((err, conn) => {
         conn.query('SELECT * FROM todos WHERE ?', {user: uid}, (err, results) => {
