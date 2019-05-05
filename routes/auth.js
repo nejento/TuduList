@@ -45,7 +45,7 @@ router.post('/login', (req, res) => {
                     res.render('auth', {
                         title: 'Přihlašování',
                         username: username,
-                        infobox: "Něco se pokazilo. Zkuste to prosím později.",
+                        infobox: "Chybné jméno nebo heslo.",
                         infoboxType: "error"
                     });
                 }
@@ -104,7 +104,7 @@ router.post('/register', (req, res) => {
                             } else {
                                 conn.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hash], (err, result) => {
                                     if (!err) {
-                                        conn.query('INSERT INTO todos (user, task, done) VALUES ?', [[[result.insertId, "Vynést odpadky", 0], [result.insertId, "Nakoupit na příští týden", 0], [result.insertId, "Umýt sporát", 1]]], (err) => {
+                                        conn.query('INSERT INTO todos (user, task, done) VALUES ?', [[[result.insertId, "Vynést odpadky", 0], [result.insertId, "Nakoupit na příští týden", 0], [result.insertId, "Umýt sporák", 1]]], (err) => {
                                             if (!err) {
                                                 res.render('auth', {
                                                     title: 'Přihlašování',
