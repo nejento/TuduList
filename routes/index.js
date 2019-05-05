@@ -4,7 +4,8 @@ let router = express.Router();
 /* GET home page. */
 router.get('/', (req, res, next) => {
     let query = {
-        title: "Vítejte"
+        title: "Vítejte",
+        logged: (req.session.loggedin ? req.session.loggedin : false)
     };
     if (req.session.loggedout) {
         query.infobox = "Byli jste úspěšně odhlášeni.";

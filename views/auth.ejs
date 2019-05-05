@@ -6,8 +6,18 @@
     <form id="login" name="login" autocomplete="off" method="post" action="/auth/login">
         <input type="text" name="username" placeholder="Uživatelské jméno" maxlength="40" <% if (typeof username == "string") { %> value="<%= username %>" <% } %>/><br/>
         <input type="password" name="password" placeholder="Heslo"/><br/>
+        <input type="checkbox" class="hidePass" onclick="showPass()">Nezakrývat<br/>
         <input type="submit" value="Přihlásit se"/>
     </form>
 </div>
+
+<script>
+    let showPass = () => {
+        let password = document.login.password
+            if (password.type === "password") {
+                password.type = "text"
+            } else password.type = "password";
+        };
+</script>
 
 <% include ../templates/footer %>

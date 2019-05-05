@@ -91,19 +91,41 @@ router.post('/register', (req, res) => {
                 });
             } else {
                 db.getConnection((err, conn) => {
-                    conn.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hash], (err, results, fields) => {
-                        if (results.affectedRows > 0) {
-                            res.render('register', {
-                                title: 'Registrace',
-                                infobox: "Uživatel " + username + " byl úspěšně přidán.",
-                                infoboxType: "ok"
-                            });
-                        } else {
+                    conn.query('SELECT * FROM users WHERE username = ?', req.body.username, (err, results) => {
+                        if (results.length > 0) {
                             res.render('register', {
                                 title: 'Registrace',
                                 username: username,
-                                infobox: "Uživatele se nepovedlo přidat.",
+                                infobox: "Uživatelské jméno je již použito. Vyberte si prosím jiné.",
                                 infoboxType: "error"
+                            });
+                        } else {
+                            conn.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hash], (err, result) => {
+                                if (!err) {
+                                    conn.query('INSERT INTO todos (user, task, done) VALUES ?', [[[result.insertId, "Vynést odpadky", 0], [result.insertId, "Nakoupit na příští týden", 0], [result.insertId, "Umýt sporát", 1]]], (err, results) => {
+                                        if (!err) {
+                                            res.render('auth', {
+                                                title: 'Přihlašování',
+                                                infobox: "Uživatel " + username + " byl úspěšně zaregistrován. Nyní se můžete přihlásit.",
+                                                infoboxType: "ok"
+                                            });
+                                        } else {
+                                            console.log(err);
+                                            res.render('auth', {
+                                                title: 'Přihlašování',
+                                                infobox: "Došlo k chybě, avšak uživatel " + username + " byl měl být úspěšně zaregistrován. Nyní se můžete přihlásit.",
+                                                infoboxType: "warn"
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    res.render('register', {
+                                        title: 'Registrace',
+                                        username: username,
+                                        infobox: "Registrace se nezdařila. Zkuste to prosím znovu",
+                                        infoboxType: "error"
+                                    });
+                                }
                             });
                         }
                     });

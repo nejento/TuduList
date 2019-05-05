@@ -161,6 +161,25 @@ nav .menu-right {
 	background-color: rgba(21, 101, 26, 0.2);
 }
 
+.valid {
+	color: green;
+}
+
+.valid:before {
+	position: relative;
+	left: -35px;
+	content: "✔";
+}
+
+.invalid {
+	color: red;
+}
+
+.invalid:before {
+	position: relative;
+	left: -35px;
+	content: "✖";
+}
 
 /* Odkazy */
 

@@ -7,7 +7,6 @@ let router = express.Router();
  * Přidat kontroly XSS injection
  * Nahodit na server
  * Přidat dokumentaci kódu
- * Opravit přidání při prázdném seznamu
  */
 
 let getPolozky = (uid, polozky) => {
@@ -35,14 +34,16 @@ router.get('/', (req, res) => {
                     title: 'Seznam',
                     polozky: polozky,
                     infobox: "Byli jste úspěšně přihlášeni",
-                    infoboxType: "ok"
+                    infoboxType: "ok",
+                    logged: true
                 });
             });
         } else {
             getPolozky(req.session.userid, (polozky) => {
                 res.render('list', {
                     title: 'Seznam',
-                    polozky: polozky
+                    polozky: polozky,
+                    logged: true
                 });
             });
         }
@@ -117,7 +118,6 @@ router.put('/check', (req, res) => {
                     if (!err) {
                         conn.query('SELECT * FROM todos WHERE ?', {id: req.body.id.replace("task-", "")}, (err, results) => {
                             res.send((results[0].done === 1 ? "checked" : "unchecked"));
-                            //res.send({task: results[0].task, done: results[0].done});
                         });
                     } else {
                         console.log(err);

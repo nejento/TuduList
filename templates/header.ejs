@@ -26,14 +26,15 @@
             <nav>
                 <ul>
                     <li><a href="/">Domů</a></li>
-                    <li><a href="/list">Seznam</a></li>
+                    <li><a href="/list">Seznam úkolů</a></li>
                 </ul>
-                <% if (typeof polozky == "object") {%>
-                    <ul class="menu-right">
+                <ul class="menu-right">
+                    <% if (typeof logged == "boolean" && logged) { %>
                         <li><a href="/auth/logout">Odhlásit</a></li>
-                    </ul>
-                <% } %>
-
+                    <% } else { %>
+                        <li><a href="/auth/register">Zaregistrovat se</a></li>
+                    <% } %>
+                </ul>
             </nav>
 
             <% if (typeof infobox == "string") {%>
