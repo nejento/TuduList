@@ -12,3 +12,10 @@ Basic task list (To-do list) created as semestral work for subject Web Apps appl
 - Using MySQL as default database storage with prepared statements preventing SQL injection
 - Using Bcrypt for password hashing
 - Using XSS library for XSS injection prevention
+
+## How to install
+- Install Node.js
+- Pull from Git
+- Run ``npm install``
+- In MySQL ``run the prepareDatabase.sql``
+- Configure MySQL credentials in ``db.js``
