@@ -19,3 +19,4 @@ Basic task list (To-do list) created as semestral work for subject Web Apps appl
 - Run ``npm install``
 - In MySQL ``run the prepareDatabase.sql``
 - Configure MySQL credentials in ``db.js``
+- Run with ``npm start``
